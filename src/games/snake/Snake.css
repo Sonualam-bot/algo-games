@@ -1,0 +1,24 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-size), 1fr);
+  width: 500px;
+  height: 500px;
+  border: 1px solid black;
+  margin-left: 150px;
+}
+
+.cell {
+  border: 1px solid #eee;
+}
+
+.head {
+  background: darkgreen;
+}
+
+.body {
+  background: limegreen;
+}
+
+.food {
+  background: crimson;
+}
