@@ -11,6 +11,13 @@ const snapshot = (g) => ({
   speed: g.speed,
 });
 
+const STATUS_TEXT = {
+  ready: "Press Start",
+  playing: "",
+  over: "Game over!",
+  won: "You filled the board!",
+};
+
 export const Snake = () => {
   // create the game ONCE (lazy init), then keep it in a ref for mutation
   const [initialGame] = useState(createInitialState);
@@ -53,7 +60,7 @@ export const Snake = () => {
   };
 
   const endGame = () => {
-    game.current.status === "over";
+    game.current = createInitialState();
     setView(snapshot(game.current));
   };
 
@@ -75,6 +82,8 @@ export const Snake = () => {
       </div>
 
       <aside>
+        <p className="score">Score: {view.score}</p>
+        <p className="status">{STATUS_TEXT[view.status]}</p>
         <section>
           <button onClick={() => startGame()} className="start-btn">
             Start

@@ -70,3 +70,8 @@
 .end-btn {
   background-color: red;
 }
+
+/* keep the line's height even when the text is empty, so the buttons don't shift */
+.status {
+  min-height: 1.5em;
+}
