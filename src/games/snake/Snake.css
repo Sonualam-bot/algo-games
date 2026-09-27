@@ -22,3 +22,51 @@
 .food {
   background: crimson;
 }
+
+.main-container {
+  display: flex;
+  gap: 10px;
+}
+
+.direction-container {
+  display: grid;
+  height: 150px;
+  width: 150px;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    ". up ."
+    "left . right"
+    ". down .";
+  border: 1px solid #eee;
+}
+
+.up {
+  grid-area: up;
+  cursor: pointer;
+}
+.down {
+  grid-area: down;
+  cursor: pointer;
+}
+.left {
+  grid-area: left;
+  cursor: pointer;
+}
+.right {
+  grid-area: right;
+  cursor: pointer;
+}
+
+.start-btn {
+  width: 100px;
+  height: 35px;
+  background-color: green;
+  color: white;
+  font-weight: bolder;
+  border: 1px solid green;
+}
+
+.end-btn {
+  background-color: red;
+}

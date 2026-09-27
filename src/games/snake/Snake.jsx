@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { createInitialState, GRID_SIZE, step } from "./logic";
+import { createInitialState, GRID_SIZE, step, turn } from "./logic";
 import "./Snake.css";
 
 // plain copy of what the screen needs — React only ever reads this
@@ -43,6 +43,20 @@ export const Snake = () => {
     }
   }
 
+  const startGame = () => {
+    const currentStatus = game.current.status;
+    if (currentStatus === "won" || currentStatus === "over") {
+      game.current = createInitialState();
+    }
+    game.current.status = "playing";
+    setView(snapshot(game.current));
+  };
+
+  const endGame = () => {
+    game.current.status === "over";
+    setView(snapshot(game.current));
+  };
+
   useEffect(() => {
     if (view.status !== "playing") return; // no loop unless playing
 
@@ -55,22 +69,35 @@ export const Snake = () => {
   }, [view.status, view.speed]);
 
   return (
-    <>
+    <div className="main-container">
       <div className="board" style={{ "--grid-size": GRID_SIZE }}>
         {cells}
       </div>
-      <button
-        onClick={() => {
-          game.current.status = "playing";
-          setView(snapshot(game.current));
-        }}
-        style={{
-          backgroundColor: "red",
-          color: "white",
-        }}
-      >
-        Start
-      </button>
-    </>
+
+      <aside>
+        <section>
+          <button onClick={() => startGame()} className="start-btn">
+            Start
+          </button>
+          <button onClick={() => endGame()} className="start-btn end-btn">
+            End
+          </button>
+        </section>
+        <section className="direction-container">
+          <button className="up" onClick={() => turn(game.current, "up")}>
+            ↑
+          </button>
+          <button className="down" onClick={() => turn(game.current, "down")}>
+            ↓
+          </button>
+          <button className="left" onClick={() => turn(game.current, "left")}>
+            ←
+          </button>
+          <button className="right" onClick={() => turn(game.current, "right")}>
+            →
+          </button>
+        </section>
+      </aside>
+    </div>
   );
 };

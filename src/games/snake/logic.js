@@ -1,7 +1,7 @@
 import { DoublyLinkedList } from "../../ds/DoublyLinkedList.js";
 
-export const GRID_SIZE = 20;
-export const INITIAL_SPEED = 150; // ms per tick
+export const GRID_SIZE = 10;
+export const INITIAL_SPEED = 500; // ms per tick
 
 export const DIRECTIONS = {
   up: { x: 0, y: 1 },
@@ -10,10 +10,22 @@ export const DIRECTIONS = {
   left: { x: -1, y: 0 },
 };
 
+const OPPOSITE = {
+  up: "down",
+  down: "up",
+  left: "right",
+  right: "left",
+};
+
 export const randomDirection = () => {
   const values = Object.keys(DIRECTIONS);
   const direction = values[Math.floor(Math.random() * values.length)];
   return direction;
+};
+
+export const turn = (state, dir) => {
+  if (OPPOSITE[dir] === state.lastMoved) return; // would reverse into the neck
+  state.direction = dir;
 };
 
 const createSnake = (direction) => {
@@ -35,12 +47,41 @@ const createSnake = (direction) => {
   return snake;
 };
 
+export const randomFood = (snake) => {
+  // 5.1 snake cells → Set of "x,y" strings (for O(1) lookups)
+  const occupied = new Set();
+  for (const cell of snake) {
+    // ← your generator runs here
+    occupied.add(`${cell.x},${cell.y}`);
+  }
+
+  // 5.2 every cell NOT in the set is free
+  const free = [];
+  for (let y = 0; y < GRID_SIZE; y++) {
+    for (let x = 0; x < GRID_SIZE; x++) {
+      if (!occupied.has(`${x},${y}`)) {
+        free.push({ x, y });
+      }
+    }
+  }
+
+  // 5.4 board full → player won
+  if (free.length === 0) {
+    return null;
+  }
+
+  // 5.3 random free cell
+  return free[Math.floor(Math.random() * free.length)];
+};
+
 export const createInitialState = () => {
   const direction = randomDirection();
+  const snake = createSnake(direction);
   return {
-    snake: createSnake(direction),
+    snake: snake,
     direction,
-    food: { x: 0, y: 0 },
+    lastMoved: direction,
+    food: randomFood(snake),
     score: 0,
     speed: INITIAL_SPEED,
     status: "ready",
@@ -62,6 +103,7 @@ export const move = (snake, direction, food) => {
 
 export const step = (state) => {
   const ate = move(state.snake, state.direction, state.food);
+  state.lastMoved = state.direction;
   const head = state.snake.getFirst();
 
   // wall: head left the 0..GRID_SIZE-1 box on either axis
@@ -89,6 +131,9 @@ export const step = (state) => {
 
   if (ate) {
     state.score += 1;
-    state.food = { x: 0, y: 0 };
+    state.food = randomFood(state.snake);
+    if (state.food === null) {
+      state.status = "won";
+    }
   }
 };
