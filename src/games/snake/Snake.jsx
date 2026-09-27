@@ -89,7 +89,7 @@ export const Snake = () => {
             Start
           </button>
           <button onClick={() => endGame()} className="start-btn end-btn">
-            {game.current.status === "over" ? "Reset" : "End"}
+            {view.status === "over" ? "Reset" : "End"}
           </button>
         </section>
         <section className="direction-container">
