@@ -1,0 +1,165 @@
+/* everything in one centred column */
+.hanoi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: system-ui, sans-serif;
+}
+
+.hanoi-rules {
+  margin-top: 0;
+  color: #555;
+}
+
+.hanoi-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* the disc dropdown and both buttons share one size and shape */
+.hanoi-controls select,
+.hanoi-btn {
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+  color: #333;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.hanoi-controls select:hover:not(:disabled),
+.hanoi-btn:hover:not(:disabled) {
+  border-color: #888;
+  background: #f5f5f5;
+}
+
+/* Solve is the main action: filled green, same as the goal base */
+.hanoi-btn.primary {
+  background: #2e8b57;
+  border-color: #2e8b57;
+  color: white;
+}
+
+.hanoi-btn.primary:hover:not(:disabled) {
+  background: #246b43;
+  border-color: #246b43;
+}
+
+/* keyboard focus ring */
+.hanoi-controls select:focus-visible,
+.hanoi-btn:focus-visible {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+/* while solving: greyed out and not clickable */
+.hanoi-controls select:disabled,
+.hanoi-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* speed slider: "Fast [----o--] Slow" */
+.hanoi-speed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.hanoi-speed input {
+  width: 120px;
+  accent-color: #2e8b57; /* same green as Solve and the goal base */
+  cursor: pointer;
+}
+
+.hanoi-moves {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums; /* digits same width, so the text doesn't wobble */
+}
+
+/* named hanoi-board, not board: Snake.css already has a global .board (grid, 500x500) */
+.hanoi-board {
+  display: flex;
+  gap: 20px;
+}
+
+/* one tower + its label; the whole column is the click target */
+.tower-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.tower-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.tower {
+  position: relative; /* so the pole (::before) is placed inside the tower */
+  width: 220px;
+  height: 260px;
+  display: flex;
+  /* first item in the array (biggest disc) goes to the BOTTOM -> pyramid */
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 2px;
+  border-bottom: 12px solid #8b5a2b; /* the wooden base */
+  border-radius: 0 0 6px 6px;
+}
+
+/* the goal tower gets a green base so you can see the target */
+.tower.goal {
+  border-bottom-color: #2e8b57;
+}
+
+/* the pole: a thin bar in the middle, drawn behind the discs */
+.tower::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 10px;
+  height: 90%;
+  transform: translateX(-50%);
+  background: #a0522d;
+  border-radius: 5px 5px 0 0;
+}
+
+.disc {
+  position: relative; /* sits above the pole */
+  height: 22px;
+  border-radius: 11px; /* half the height = fully rounded ring ends */
+  /* light on top, dark at the bottom = looks round, not flat */
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0) 45%,
+    rgba(0, 0, 0, 0.25)
+  );
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* selected tower: lift its top disc (last in the DOM = top, because of column-reverse) */
+.tower.selected .disc:last-child {
+  transform: translateY(-20px);
+  outline: 2px solid #333;
+}
+
+/* keep the line's height even when the text is empty, so nothing shifts on a win */
+.hanoi-status {
+  min-height: 1.5em;
+  font-size: 1.2em;
+  font-weight: bold;
+}

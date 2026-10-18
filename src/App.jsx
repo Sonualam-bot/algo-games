@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { HomePage } from "./Homepage";
-import { Snake } from "./games";
+import { Hanoi, Snake } from "./games";
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/snake" element={<Snake />} />
+        <Route path="/hanoi" element={<Hanoi />} />
       </Routes>
     </>
   );
