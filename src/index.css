@@ -1,0 +1,13 @@
+/* shared by every game page (rendered in App.jsx) */
+.back-link {
+  display: inline-block;
+  margin: 16px;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+  color: #2e8b57;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
