@@ -1,8 +1,7 @@
 # Algo Games
 
 Learn data structures and algorithms by building and playing small games.
-Every game is powered by one DSA idea, inspired by the algorithm games on
-[labuladong.online](https://labuladong.online/en/algo/intro/game/).
+Every game is powered by one DSA idea.
 
 ## Games
 
